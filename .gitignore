@@ -1,5 +1,7 @@
 mlruns/
 mlruns.db
+mlflow.db
+chroma_db/
 
 # Environments
 .env
