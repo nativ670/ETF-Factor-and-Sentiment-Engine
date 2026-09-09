@@ -5,7 +5,7 @@ from sklearn.metrics import accuracy_score
 
 X_train, X_test, y_train, y_test =  load_etf_data("SPY")
 
-remote_server_uri = "http://localhost:5000"  # Replace with your MLflow server URI
+remote_server_uri = "sqlite:///mlflow.db"  # Replace with your MLflow server URI
 
 mlflow.set_tracking_uri(remote_server_uri)
 mlflow.set_experiment("ETF_Price_Prediction")
