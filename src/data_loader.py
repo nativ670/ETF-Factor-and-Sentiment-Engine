@@ -1,4 +1,5 @@
 import yfinance
+from features import engineer_features
 
 def load_etf_data(symbol, start="2020-01-01", end="2026-01-01", period="1d"):
     """
@@ -10,12 +11,16 @@ def load_etf_data(symbol, start="2020-01-01", end="2026-01-01", period="1d"):
     data = data[[target_column]].rename(columns={target_column: "Price"})
     data.reset_index(inplace=True)
     data['Date'] = data['Date'].dt.date  # Convert to date only
+
     data["Next_Day_Price"] = data["Price"].shift(-1)  # Create a new column for the next day's price
+    data = engineer_features(data)  # Engineer features
     data.dropna(inplace=True)  # Drop rows with missing values
     data['Target'] = (data["Next_Day_Price"] > data["Price"]).astype(int)  # Create a binary target variable
+
     train_size = int(len(data) * 0.8)
     test_size = len(data) - train_size
-    X = data[["Price"]]
+    features = ["Daily_Return", "Rolling_Vol_14", "SMA_5_Ratio", "SMA_10_Ratio", "SMA_50_Ratio", "Rolling_Std_5", "Rolling_Std_10"]
+    X = data[features]
     y = data["Target"]
     X_train = X.iloc[:train_size]
     X_test = X.iloc[train_size:train_size + test_size]
