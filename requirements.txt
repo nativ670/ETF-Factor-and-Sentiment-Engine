@@ -7,3 +7,4 @@ mlflow
 pydantic
 chromadb
 sentence-transformers
+mcp

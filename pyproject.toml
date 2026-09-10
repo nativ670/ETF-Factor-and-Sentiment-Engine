@@ -1,0 +1,12 @@
+[project]
+name = "etf-intelligence-system"
+version = "0.1.0"
+description = "ETF intelligence system using quantitative prediction and financial news RAG"
+requires-python = ">=3.11"
+dependencies = [
+    "chromadb",
+    "yfinance",
+    "xgboost",
+    "mlflow",
+    "mcp>=2.0.0",
+]
