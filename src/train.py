@@ -32,7 +32,7 @@ def main(ticker="SPY"):
         mlflow.log_param("train_size", len(X_train))
         mlflow.log_param("test_size", len(X_test))
 
-        # Train the XGBoost model
+        scale_pos_weight = (y_train == 0).sum() / (y_train == 1).sum()        # Train the XGBoost model
         model = xgb.XGBClassifier(
             n_estimators=100,
             max_depth=4,
@@ -40,6 +40,7 @@ def main(ticker="SPY"):
             eval_metric="logloss",
             early_stopping_rounds=20,
             random_state=42,
+            scale_pos_weight=scale_pos_weight,
         )
         model.fit(X_train, y_train, eval_set=[(X_train, y_train),(X_test, y_test)], verbose=False)
 
